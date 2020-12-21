@@ -14,7 +14,7 @@ A Clash Royale Discord bot
 To run this from your own computer, you will need a [discord bot](https://discord.com/developers/applications/), [reddit bot](https://old.reddit.com/prefs/apps/), and a [clash royale api key](https://developer.clashroyale.com/#/) .
 Download this repository and create a file called 'keys.csv' in the same folder. 'keys.csv' should have 5 values: {discordkey},{clashroyalekey},{redditid},{redditsecret},{redditusername}
 
-Now run main.py to run the bot
+Now run main.py to run the bot. Enter you reddit password when prompted.
 
 # Commands
 - '!hello' - returns a 'nice' and 'friendly' greeting 
