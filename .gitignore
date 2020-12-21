@@ -1,0 +1,9 @@
+visited_submissions.csv*
+temp.png*
+__pycache__/
+.pylint.d/
+.spyproject/
+run_code.bat*
+rock_paper_scissors_full.py*
+discord_keys.txt*
+keys.csv*
