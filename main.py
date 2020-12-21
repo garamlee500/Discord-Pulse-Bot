@@ -9,7 +9,6 @@ help_string= '''
 Implemented features:
     - '!hello' - returns a 'nice' and 'friendly' greeting 
     - '!rickroll' - definitely doesn't return a link to 'Never Gonna give you up' by Rick Astley on youtube
-    - '!cardinfo <cardname>' - returns basic card info
     - '!cardimage <cardname>' - returns an image of the requested card - works with all cards - the feature you never knew you wanted
     - '!playerinfo <playertag>' - returns basic player info
     - '!claninfo <clantag>' - returns basic clan info
@@ -25,9 +24,7 @@ Implemented features:
     - Post a clashroyale deck link to be decoded by the bot
     
 Known Issues:
-    - P.E.K.K.A needs to be spelt with the dots inbetween cause I can't be bothered to detect when pekka's syntax needs to be fixed
-    - !cardinfo only works for the first 89 cards and a half, due to a known issue. I'm trying to fix it but the effort required is huge
-    - !meme occasionly pulls a mod post from reddit which isn't a meme. Although the reason is known, da solution is not
+    - P.E.K.K.A needs to be spelt with the dots inbetween cause I can't be bothered to detect when pekka's syntax needs to be fixed    - !meme occasionly pulls a mod post from reddit which isn't a meme. Although the reason is known, da solution is not
 '''
 '''Possible feature ideas:
     - deck builder
