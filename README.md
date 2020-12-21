@@ -1,7 +1,7 @@
 # Discord-Pulse-Bot
 A Clash Royale Discord bot
 ### Try it out on your server using: https://discord.com/api/oauth2/authorize?client_id=770293755285602354&permissions=523328&scope=bot
-<img src="e.jpg" alt = "lord farquaad e meme" width = 50%>
+<img src="e.jpg" alt = "lord farquaad e meme" width = 20%>
 
 # Features 
 - A reddit post fetcher that can fetch memes, news headlines and clash royale memes (from [r/memes](https://www.reddit.com/r/memes/), [r/news](https://www.reddit.com/r/news/) and [r/clashroyale](https://www.reddit.com/r/clashroyale/))
