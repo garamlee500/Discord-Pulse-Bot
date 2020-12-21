@@ -24,7 +24,7 @@ Implemented features:
     - Post a clashroyale deck link to be decoded by the bot
     
 Known Issues:
-    - P.E.K.K.A needs to be spelt with the dots inbetween cause I can't be bothered to detect when pekka's syntax needs to be fixed    - !meme occasionly pulls a mod post from reddit which isn't a meme. Although the reason is known, da solution is not
+    - !meme occasionly pulls a mod post from reddit which isn't a meme. Although the reason is known, da solution is not
 '''
 '''Possible feature ideas:
     - deck builder
