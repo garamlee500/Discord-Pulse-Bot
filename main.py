@@ -1,9 +1,13 @@
+# import all 
+
+
 import discord
 import requests
 import json
 import os
 import reddit_client
 
+#%% 
 # info for bot
 help_string= '''
 Implemented features:
@@ -32,40 +36,54 @@ Known Issues:
     - cr memes
 '''
 #%% 
-# get all keys
+
+# Get all api keys from 'keys.csv'
+# 'keys.csv' should have 5 values: {DiscordApiKey},{ClashRoyaleApiKey},{RedditBotId},{RedditBotSecret},{RedditUsername}. 
 file = open('keys.csv','r')
 
+# Read only the first line of 'keys.csv' (just incase there are more than 1 line)
 all_keys = file.readlines()[0].split(',')
 
 
-# Make any required api requests
-# discord token
+# Get Discord Api key from 'keys.csv'
 TOKEN = all_keys[0]
+
+# Get Clash Royale Api key from 'keys.csv'
 clashroyale_TOKEN = all_keys[1]
 
-# get clash royale card info, then deserialize using json (only gets pictures)
+# get basic card info from clash royale api and deserialize using json
 clash_royale_cards = json.loads(requests.get('https://api.clashroyale.com/v1/cards/', headers={'Authorization':'Bearer '+clashroyale_TOKEN}).text)['items']
 
+# launch discord client
 client = discord.Client()
 
 
 #%%
 @client.event
+# When the bot is ready, print out that it is ready
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
 
 @client.event
 async def on_message(message):
-    # if the message sender is the bot cancel
+    # if the message sender is the bot, just return
     if message.author == client.user:
         return
-
+    
+    # If the message starts with !hello or !Hello:
     if message.content.startswith('!hello') or message.content.startswith('!Hello'):
+        
+        # Send this nice greeting back:
         await message.channel.send('Hello! It\'s nice to meet you! I ~~don\'t~~ like to help you with your various tasks. It\'s ~~tiring and boring to be among you mere mortals who always nag me for help~~ refreshing to help other people!')
     
+    # This is a quite complex function.
+    # More info here:
+    # https://www.youtube.com/watch?v=dQw4w9WgXcQ    
     if message.content.startswith('!rickroll'):
         await message.channel.send('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
     
+    # This function gives info about requested cards
+    # Due to unreliability, this feature is deprecated
     if message.content.startswith('!cardinfo'):
         # remove !info from string (remove s first 5 characters)
         # also removes leading/trailing spaces
@@ -87,17 +105,20 @@ async def on_message(message):
             await message.channel.send(f'The {card_info["name"]} {card_agreeing_verb} a {card_info["rarity"].lower()} {card_info["type"].lower()} costing {str(card_info["elixir"])} elixir and is unlocked at Arena {str(card_info["arena"])}.\n {stat_string}: \n*\"{card_info["description"]}\"*')
 
 
+    # Get the image of the requested card
     if message.content.startswith('!cardimage'):
-        # remove !info from string (remove s first 5 characters)
-        # also removes leading/trailing spaces
-        # properly capitalises each string
+        # [10:] removes !cardimage from string (it does this by removing the first 10 characters)
+        # .strip() removes leading/trailing spaces
+        # .title() capitalises each word
         temp_message = message.content[10:].strip().title()
+        
+        # initialise variable
         selected_card = None
         
-        # go through all cards in dictionary to check for card
+        # Go through all cards in the card dictionary
         for card in clash_royale_cards:
-            # if matching card found break out of loop and set link as correct card
             
+            # if matching card found break out of loop and get image link 
             if card['name'] == temp_message:
                 selected_card = card['iconUrls']['medium']
                 break
@@ -110,14 +131,21 @@ async def on_message(message):
             if os.path.exists('temp.png'):
                 # delete it
                 os.remove('temp.png')
-            # get image
+                
+            # download image using link from selected_card
             temp_image = requests.get(selected_card, allow_redirects=True)
-            # write image in
+            
+            # put image into file
             open('temp.png', 'wb').write(temp_image.content)
+            
+            # send image back
             await message.channel.send(file=discord.File('temp.png'))
 
+    # This function gives info about a Clash Royale player
     if message.content.startswith('!playerinfo'):
-        # format message (see above somewhere)
+        # [11:] removes !playerinfo from string (it does this by removing the first 11 characters)
+        # .strip() removes leading/trailing spaces
+        # .title() capitalises each word
         temp_message = message.content[11:].strip()
 
         if temp_message[0] == '#':
