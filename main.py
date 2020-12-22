@@ -148,33 +148,40 @@ async def on_message(message):
         # .title() capitalises each word
         temp_message = message.content[11:].strip()
 
+        # This bit adds %23 to front of player tag (the proper encoding for #)
         if temp_message[0] == '#':
-            # remove #
+            # remove # if present
             temp_message = temp_message[1:]
-        # add formatted # in
+        # add %23
         temp_message = '%23' + temp_message
-        # find player
+        
+        # Get player info using Clash royale api
         player = json.loads(requests.get('https://api.clashroyale.com/v1/players/'+temp_message, headers={'Authorization':'Bearer '+clashroyale_TOKEN}).text)
 
         current_deck = ''
 
         
-        
+        # This efficient bit of code here goes through each stat and sees if present, and then adds it to string to send to person
         
         try:
+            # Find player's username, trophies and arena
             player_info = f'{player["name"]} is on {player["trophies"]} trophies in {player["arena"]["name"]}'
             
             try:
+                # Find league statistics if present (account must've been above 4000 trophies the previous season)
                 player_info += f', with a record of {player["leagueStatistics"]["currentSeason"]["bestTrophies"]} trophies this season and {player["bestTrophies"]} overall.\n'
             
+            # if league statistics not available, skip it
             except KeyError:
-                player_info +='.'
+                player_info +='.\n'
                 
             try:
+                # Get this season's league statistics (if present like above)
                 player_info += f'Their best season so far was {player["leagueStatistics"]["bestSeason"]["id"]}, finishing with {player["leagueStatistics"]["bestSeason"]["trophies"]} trophies!\n'
             except KeyError:
                 pass
             
+            # Get player's username, king tower level, wins and losses
             player_info += f'{player["name"]} is currently King Tower {player["expLevel"]} with {player["wins"]} wins and {player["losses"]} losses, so far donating a generous {player["totalDonations"]} cards!\n'
             
             try:
