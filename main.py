@@ -353,7 +353,7 @@ Current war participants in clan:
         
     # do !message <channel id> <message> to use
     if message.content.startswith('!message'):
-        if message.author.id == 159985870458322944:
+        if message.author.id == 769880558322188298:
             temp_message = message.content[8:].split()
             channel_id = temp_message.pop(0)
             
@@ -363,7 +363,7 @@ Current war participants in clan:
             await message.channel.send('Congratulations on finding this secret command. You can\'t use it though')
      
     if message.content.startswith('Hey guys,'):
-        if message.author.id == 769880558322188298:
+        if message.author.id == 159985870458322944:
             await message.channel.send ('Hey guys,\nRemember to go to the toilet!')
             
     if message.content.startswith('!meme'):
