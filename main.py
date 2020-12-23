@@ -363,8 +363,7 @@ Current war participants in clan:
             await message.channel.send('Congratulations on finding this secret command. You can\'t use it though')
      
     if message.content.startswith('Hey guys,'):
-        if message.author.id == 159985870458322944:
-            await message.channel.send ('Hey guys,\nRemember to go to the toilet!')
+        await message.channel.send ('Hey guys,\nRemember to go to the toilet!')
             
     if message.content.startswith('!meme'):
         try:
