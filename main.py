@@ -223,17 +223,18 @@ async def on_message(message):
         player_chests = json.loads(requests.get('https://api.clashroyale.com/v1/players/'+temp_message + '/upcomingchests', headers={'Authorization':'Bearer '+clashroyale_TOKEN}).text)
         
         chest_list = []
-        
-        # For each chest in chest cycle
-        for chest in player_chests['items']:
-            # If there are less than 6 chests or the chest isn't silver/gold
-            # This limits silver/gold chests to the first 6 chests (extra chests are better chests)
-            if len(chest_list) < 6 or (chest["name"] != 'Silver Chest' and chest["name"]!= 'Golden Chest'):
-                # Add chest to list
-                chest_list.append(chest)
-                
-        # Process first 6 chests into a string, removing them from the list each time
-        chest_info = f'''
+            
+        try:
+            # For each chest in chest cycle
+            for chest in player_chests['items']:
+                # If there are less than 6 chests or the chest isn't silver/gold
+                # This limits silver/gold chests to the first 6 chests (extra chests are better chests)
+                if len(chest_list) < 6 or (chest["name"] != 'Silver Chest' and chest["name"]!= 'Golden Chest'):
+                    # Add chest to list
+                    chest_list.append(chest)
+                    
+            # Process first 6 chests into a string, removing them from the list each time
+            chest_info = f'''
 Your chests:
 Next chest - {chest_list.pop(0)["name"]}
 1 - {chest_list.pop(0)["name"]}
@@ -241,16 +242,19 @@ Next chest - {chest_list.pop(0)["name"]}
 3 - {chest_list.pop(0)["name"]}
 4 - {chest_list.pop(0)["name"]}
 5 - {chest_list.pop(0)["name"]}
-'''
-    
-        # Cycle through remaining chests and add to chest_info string
-        for chest in chest_list:
-            # add chest
-            chest_info += str(chest["index"]) + ' - ' + chest["name"] + "\n"
+ '''
         
-        # Send chest cycle info into channel
-        await message.channel.send(chest_info)
+            # Cycle through remaining chests and add to chest_info string
+            for chest in chest_list:
+                # add chest
+                chest_info += str(chest["index"]) + ' - ' + chest["name"] + "\n"
+            
+            # Send chest cycle info into channel
+            await message.channel.send(chest_info)
        
+        # Catch missing information
+        except KeyError:
+            await message.channel.send("Warning. Player not found")
     if message.content.startswith('!help'):
         # Sends help_string which is defined earlier in file
         await message.channel.send(help_string)
@@ -287,16 +291,23 @@ Next chest - {chest_list.pop(0)["name"]}
         # Get clan info from clash royale api
         clan= json.loads(requests.get('https://api.clashroyale.com/v1/clans/'+temp_message, headers={'Authorization':'Bearer '+clashroyale_TOKEN}).text)
         
-        # Format all clan info
-        clan_info = f"""
+        try:
+            # Format all clan info
+            clan_info = f"""
 {clan["name"]} is a clan with {clan["clanWarTrophies"]} war trophies, a clan score of {clan["clanScore"]} and {clan["donationsPerWeek"]} donations per week.
 {clan["name"]} is a {clan["type"]} clan, requiring {clan["requiredTrophies"]} trophies to join.
 There are currently {clan["members"]} members.
 *{clan["description"]}*
 Open clan in Clash Royale: {'https://link.clashroyale.com/?clanInfo?id='+temp_message[3:]}
 """
-        # Send clan info into channel
-        await message.channel.send(clan_info)
+            # Send clan info into channel
+            await message.channel.send(clan_info)   
+            
+        # Detect key errors - missing information
+        except KeyError:
+            await message.channel.send("Clan not found, there seems to be something wrong with the clan tag.")
+        
+
        
 
     if message.content.startswith('!clanmembers'):
@@ -314,18 +325,23 @@ Open clan in Clash Royale: {'https://link.clashroyale.com/?clanInfo?id='+temp_me
         # string has to be split due to 2000 character limit
         clan_member_info = ['']
         
-        
-        for member in clan['items']:
-            # make sure each message doesn't exceed 2000 characters
-            if len(clan_member_info[-1]) > 1500:
-                   clan_member_info.append('')
-            clan_member_info[-1] += f"{member['clanRank']}, {member['name']}, {member['role']}, {member['trophies']} trophies, {str(member['donations'] - member['donationsReceived'])} net donations, King Tower {member['expLevel']}, {member['tag']}\n"
+        try:
+            for member in clan['items']:
+                # make sure each message doesn't exceed 2000 characters
+                if len(clan_member_info[-1]) > 1500:
+                       clan_member_info.append('')
+                clan_member_info[-1] += f"{member['clanRank']}, {member['name']}, {member['role']}, {member['trophies']} trophies, {str(member['donations'] - member['donationsReceived'])} net donations, King Tower {member['expLevel']}, {member['tag']}\n"
+                
+            # add link to it
+            clan_member_info.append('Open clan in Clash Royale: https://link.clashroyale.com/?clanInfo?id='+temp_message[3:])
+    
+            for clan_member_info_string in clan_member_info:
+                await message.channel.send(clan_member_info_string)
+                
             
-        # add link to it
-        clan_member_info.append('Open clan in Clash Royale: https://link.clashroyale.com/?clanInfo?id='+temp_message[3:])
-
-        for clan_member_info_string in clan_member_info:
-            await message.channel.send(clan_member_info_string)
+        # Catch clans with missing data
+        except KeyError:
+            await message.channel.send("This clan doesn't exist")            
             
     if message.content.startswith('!clanwar'):
         temp_message = message.content[8:].strip()
@@ -341,10 +357,12 @@ Open clan in Clash Royale: {'https://link.clashroyale.com/?clanInfo?id='+temp_me
 
         # string has to be split due to 2000 character limit
         clan_war_info = ['']
-        # add current war standings
-        clan_war_standings = sorted(clan["clans"], key = lambda i: i['fame'])
-        clan_war_standings.reverse()
-        clan_war_info[0] += f'''
+        
+        try:
+            # add current war standings
+            clan_war_standings = sorted(clan["clans"], key = lambda i: i['fame'])
+            clan_war_standings.reverse()
+            clan_war_info[0] += f'''
 Current war standings:
     1st: {clan_war_standings[0]["name"]} - {clan_war_standings[0]["fame"]} fame - {clan_war_standings[0]["tag"]}
     2nd: {clan_war_standings[1]["name"]} - {clan_war_standings[1]["fame"]} fame - {clan_war_standings[1]["tag"]}
@@ -354,19 +372,23 @@ Current war standings:
 
 Current war participants in clan:
 '''
-        clan_war_participants = clan["clan"]["participants"]
-        clan_war_participants.reverse()
-        i = 1
-        for member in clan_war_participants:
-            # make sure each message doesn't exceed 2000 characters
-            if len(clan_war_info[-1]) > 1500:
-                   clan_war_info.append('')
-            clan_war_info[-1] += f"{i}. {member['name']} - {member['fame']} fame - {member['repairPoints']} repair points - {member['tag']}\n"
-            i+=1   
-            
-        clan_war_info.append('Note: Fame is currently counted past the 36000 finish line, which may create misleading results - view more info here at RoyaleApi\'s website: https://royaleapi.com/blog/clan-wars-2-tools#known-issues')
-        for string in clan_war_info:
-            await message.channel.send(string)
+            clan_war_participants = clan["clan"]["participants"]
+            clan_war_participants.reverse()
+            i = 1
+            for member in clan_war_participants:
+                # make sure each message doesn't exceed 2000 characters
+                if len(clan_war_info[-1]) > 1500:
+                       clan_war_info.append('')
+                clan_war_info[-1] += f"{i}. {member['name']} - {member['fame']} fame - {member['repairPoints']} repair points - {member['tag']}\n"
+                i+=1   
+                
+            clan_war_info.append('Note: Fame is currently counted past the 36000 finish line, which may create misleading results - view more info here at RoyaleApi\'s website: https://royaleapi.com/blog/clan-wars-2-tools#known-issues')
+            for string in clan_war_info:
+                await message.channel.send(string)
+                
+        # Catch missing information
+        except KeyError:
+            await message.channel.send("This clan either doesn't exist or doesn't do clan war.")
     if message.content.startswith('!rps'):
             
         import rock_paper_scissors
