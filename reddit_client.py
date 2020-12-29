@@ -49,7 +49,8 @@ def get_post_flair(subreddit, flair):
     new_posts = reddit.subreddit(subreddit).top('week', limit=5000)
     for post in new_posts:
         
-        # if post hasn't ben chosen yet use this post and flair matches
+        # If post hasn't been chosen yet and the flair matches, use this post
+        # REDDIT POST, I CHOOSE YOU!
         if not post.id in visited_posts and post.link_flair_text == flair:
             chosen_post = post
             visited_posts.append(post.id)
