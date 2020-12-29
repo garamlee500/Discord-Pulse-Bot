@@ -78,29 +78,6 @@ async def on_message(message):
     if message.content.startswith('!rickroll'):
         await message.channel.send('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
     
-    # This function gives info about requested cards
-    # Due to unreliability, this feature is deprecated
-    if message.content.startswith('!cardinfo'):
-        # remove !info from string (remove s first 5 characters)
-        # also removes leading/trailing spaces
-        # properly capitalises each string
-        temp_message = message.content[9:].strip().title()
-        
-        import card_finder
-        card_info,stat_string = card_finder.find_card(temp_message)
-        if card_info is None:
-            await message.channel.send('Warning! Invalid card name. Spell it properly it next time! The typos hurt my perfect non-mortal processing unit.')
-        
-        else:
-            # formats card info and sends it
-            # if my awesome epic program thinks the card is a plural use are instead of is (checks if the card ends with an s)
-            if card_info["name"][-1] =='s':
-                card_agreeing_verb = 'are'
-            else:
-                card_agreeing_verb = 'is'
-            await message.channel.send(f'The {card_info["name"]} {card_agreeing_verb} a {card_info["rarity"].lower()} {card_info["type"].lower()} costing {str(card_info["elixir"])} elixir and is unlocked at Arena {str(card_info["arena"])}.\n {stat_string}: \n*\"{card_info["description"]}\"*')
-
-
     # Get the image of the requested card
     if message.content.startswith('!cardimage'):
         # [10:] removes !cardimage from string (it does this by removing the first 10 characters)
