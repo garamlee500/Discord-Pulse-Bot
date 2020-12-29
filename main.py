@@ -30,11 +30,7 @@ Implemented features:
 Known Issues:
     - !meme occasionly pulls a mod post from reddit which isn't a meme. Although the reason is known, da solution is not
 '''
-'''Possible feature ideas:
-    - deck builder
-    - player deck copy
-    - cr memes
-'''
+
 #%% 
 
 # Get all api keys from 'keys.csv'
