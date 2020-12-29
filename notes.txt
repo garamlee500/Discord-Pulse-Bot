@@ -1,0 +1,11 @@
+Possible feature ideas:
+    - deck builder
+    - player deck copy
+    - cr memes
+    
+1. Fix crmeme
+2. Create match up ai
+3. Create notes file
+4. Improve instructions
+5. !info command
+6. Remove card info
