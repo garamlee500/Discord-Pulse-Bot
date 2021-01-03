@@ -6,6 +6,7 @@ import requests
 import json
 import os
 import reddit_client
+from datetime import datetime
 
 #%% 
 # info for bot
@@ -56,9 +57,9 @@ client = discord.Client()
 
 #%%
 @client.event
-# When the bot is ready, print out that it is ready
+# When the bot is ready, print out that it is ready with datetime it was logged in on 
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
+    print(f'We have logged in as {client.user} on {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}')
 
 @client.event
 async def on_message(message):
