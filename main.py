@@ -403,9 +403,6 @@ Current war participants in clan:
         else:
             await message.channel.send('Congratulations on finding this secret command. You can\'t use it though')
      
-    if message.content.startswith('Hey guys,'):
-        await message.channel.send ('Hey guys,\nRemember to go to the toilet!')
-            
     if message.content.startswith('!meme'):
         try:
             # use my reddit client module to get meme
