@@ -97,4 +97,23 @@ def generate_data(clashroyale_TOKEN, write_to_file = False):
 
 # Generate ai model for !matchup
 def generate_ai_model(clashroyale_TOKEN):
-    pass
+    # find df with dataframe - if it doesn't exist generate it
+    try: 
+        df = pd.read_csv('battlelogs.csv', index_col=0)
+    # if file not found
+    except FileNotFoundError:
+        # generate data
+        df = generate_data(clashroyale_TOKEN)
+        
+    # pick all columns except for result as input
+    X = df.loc[:,df.columns!='Results']
+    # Selet Results for outputs
+    y = df[['Results']] 
+    
+    # Our ai system to use
+    from sklearn.tree import DecisionTreeClassifier
+
+    # Train ai
+    clf_dt= DecisionTreeClassifier(random_state=0) # starts ai thing
+    clf_dt.fit(X, y)
+    
