@@ -34,4 +34,5 @@ Now run main.py to run the bot. Enter you reddit password when prompted.
 - '!crmeme' - fetch a meme from the r/clashroyale subreddit 
 - '!news' - get the latest news headlines from r/news
 - '!botcheck <playertag>' - check if a player is a supercell created bot - Note: We do not take responsibility for the accuracy of this tool
+- '!sing' - Get the bot to sing a song
 - Post a clashroyale deck link to be decoded by the bot

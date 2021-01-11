@@ -26,6 +26,7 @@ Implemented features:
     - '!crmeme' - fetch a meme from the r/clashroyale subreddit 
     - '!news' - get the latest news headlines from r/news
     - '!botcheck <playertag>' - check if a player is a supercell created bot - Note: We do not take responsibility for the accuracy of this tool
+    - '!sing' - Get the bot to sing a song
     - Post a clashroyale deck link to be decoded by the bot
     
 Known Issues:
@@ -494,6 +495,10 @@ Current war participants in clan:
         except KeyError:
             await message.channel.send("Warning, Player tag not found!!!!!!!!")
             
+    # Sing never gonna give you up using /tts
+    if message.content.startswith('!sing'):
+        await message.channel.send('Never gonnaaaa give you up.\nNever gonna let u down.\nNever gonna run around and desert u.\nNever gonna make you cry.\nNever gonna say goodbye.\nNever gonna tell a lie and hurt u.', tts=True)
+        
     # check if message has clashroyale deck url in it 
     else:
         regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
