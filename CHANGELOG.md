@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.3] - 2021-1-11
+### Removed 
+- Removed 'Hey guys,' trigger
+
+### Fixed
+- Fixed Dad joke feature for apple users and grammatically incorrect people
+
+### Added
+- Added joke !sing function
+
 ## [1.0.2] - 2020-12-29
 
 ### Fixed
