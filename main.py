@@ -261,7 +261,7 @@ Next chest - {chest_list.pop(0)["name"]}
     # Here's an example:
     # 'Dad, I'm hungry'
     # 'Hello hungry, I'm Dad'
-    if message.content.startswith('I\'m'):
+    if message.content.startswith('I\'m') or message.content.startswith('I’m'):
         # [3:] removes I'm from string (it does this by removing the first 3 characters)
         # .strip() removes leading/trailing spaces
         # .title() isn't used: this is to preserve the user's capitalisation in
