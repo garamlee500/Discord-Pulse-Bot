@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.4] - 2021-1-12
+
+### Added
+- Automatic Dad joke pin
+
 ## [1.0.3] - 2021-1-11
 ### Removed 
 - Removed 'Hey guys,' trigger
