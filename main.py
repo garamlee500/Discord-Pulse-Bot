@@ -6,6 +6,7 @@ import requests
 import json
 import os
 import reddit_client
+from datetime import datetime
 
 #%% 
 # info for bot
@@ -25,6 +26,7 @@ Implemented features:
     - '!crmeme' - fetch a meme from the r/clashroyale subreddit 
     - '!news' - get the latest news headlines from r/news
     - '!botcheck <playertag>' - check if a player is a supercell created bot - Note: We do not take responsibility for the accuracy of this tool
+    - '!sing' - Get the bot to sing a song
     - Post a clashroyale deck link to be decoded by the bot
     
 Known Issues:
@@ -56,15 +58,19 @@ client = discord.Client()
 
 #%%
 @client.event
-# When the bot is ready, print out that it is ready
+# When the bot is ready, print out that it is ready with datetime it was logged in on 
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
+    print(f'We have logged in as {client.user} on {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}')
 
 @client.event
 async def on_message(message):
     # if the message sender is the bot, just return
     if message.author == client.user:
-        return
+        # If message is a dad joke message, pin it
+        if message.content.startswith('Hello,'):
+            await message.pin()
+        else:
+            return
     
     # If the message starts with !hello or !Hello:
     if message.content.startswith('!hello') or message.content.startswith('!Hello'):
@@ -237,13 +243,16 @@ Next chest - {chest_list.pop(0)["name"]}
     # Here's an example:
     # 'Dad, I'm hungry'
     # 'Hello hungry, I'm Dad'
-    if message.content.startswith('I\'m'):
+    if message.content.startswith('I\'m') or message.content.startswith('I’m') or message.content.startswith('Im') or message.content.startswith('im'):
         # [3:] removes I'm from string (it does this by removing the first 3 characters)
         # .strip() removes leading/trailing spaces
         # .title() isn't used: this is to preserve the user's capitalisation in
         temp_message = message.content[3:].strip()
         
-        # Send message through to channel
+        # Pin message
+        await message.pin()
+        
+        # Send message through to channel and then pin - this is catched later
         await message.channel.send('Hello, ' + temp_message + ', I\'m Pulse bot!')
 
     # Get basic clan info 
@@ -379,9 +388,6 @@ Current war participants in clan:
         else:
             await message.channel.send('Congratulations on finding this secret command. You can\'t use it though')
      
-    if message.content.startswith('Hey guys,'):
-        await message.channel.send ('Hey guys,\nRemember to go to the toilet!')
-            
     if message.content.startswith('!meme'):
         try:
             # use my reddit client module to get meme
@@ -472,6 +478,11 @@ Current war participants in clan:
         
         except KeyError:
             await message.channel.send("Warning, Player tag not found!!!!!!!!")
+            
+    # Sing never gonna give you up using /tts
+    if message.content.startswith('!sing'):
+        await message.channel.send('Never gonnaaaa give you up.\nNever gonna let u down.\nNever gonna run around and desert u.\nNever gonna make you cry.\nNever gonna say goodbye.\nNever gonna tell a lie and hurt u.', tts=True)
+        
     # check if message has clashroyale deck url in it 
     else:
         regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"

@@ -1,6 +1,6 @@
 # Discord-Pulse-Bot
 A Clash Royale Discord bot
-### Try it out on your server using: https://discord.com/api/oauth2/authorize?client_id=770293755285602354&permissions=523328&scope=bot 
+### Try it out on your server using: https://discord.com/api/oauth2/authorize?client_id=770293755285602354&permissions=392256&scope=bot
 Note: The bot added using the above link will be running the latest [release](https://github.com/garamlee500/Discord-Pulse-Bot/releases).
 
 <img src="e.jpg" alt = "lord farquaad e meme" width = 20%>
@@ -34,4 +34,5 @@ Now run main.py to run the bot. Enter you reddit password when prompted.
 - '!crmeme' - fetch a meme from the r/clashroyale subreddit 
 - '!news' - get the latest news headlines from r/news
 - '!botcheck <playertag>' - check if a player is a supercell created bot - Note: We do not take responsibility for the accuracy of this tool
+- '!sing' - Get the bot to sing a song
 - Post a clashroyale deck link to be decoded by the bot
