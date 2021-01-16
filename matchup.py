@@ -118,4 +118,50 @@ def generate_ai_model(clashroyale_TOKEN):
     
     return clf_svm
 
+# Note - all playertags must be processed before reaching this state
+# Note - I am aware of the extremely small sample - this is due to lack of mone
+def predict_ai_result(player1_tag, player2_tag, clashroyale_TOKEN):
+    import json
+    import requests
+    global clf_svm 
+    
+    # Get player1 and 2's info
+    player1 = json.loads(requests.get('https://api.clashroyale.com/v1/players/'+ player1_tag, headers={'Authorization':'Bearer '+clashroyale_TOKEN}).text)
+    player2 = json.loads(requests.get('https://api.clashroyale.com/v1/players/'+ player2_tag, headers={'Authorization':'Bearer '+clashroyale_TOKEN}).text)
+    
+    # Extract all data from dic- not strictly necessary but keeps stuff neat
+    player1Trophies = player1["trophies"]
+    player1MaxTrophies = player1["bestTrophies"]
+    player1KingTower = player1["expLevel"]
+    
+    player2Trophies = player2["trophies"]
+    player2MaxTrophies = player2["bestTrophies"]
+    player2KingTower = player2["expLevel"]
+    
+    # Note prediction must be done twice due to bias towards player mention first
+    predictionA = clf_svm.predict_proba([[player1Trophies,player2Trophies,
+                                          player1MaxTrophies,player2MaxTrophies,
+                                          player1KingTower,player2KingTower]])[0,1]
+    
+    predictionB = clf_svm.predict_proba([[player2Trophies,player1Trophies,
+                                          player2MaxTrophies,player1MaxTrophies,
+                                          player2KingTower,player1KingTower]])[0,0]
+    
+    # Predicted win rate for player1
+    player1WinRate = (predictionA + predictionB)/2   
+    player2WinRate = 1 - player1WinRate
+    
+    # return win rates
+    return player1WinRate, player2WinRate, player1["name"], player2["name"]
 
+# Get all api keys from 'keys.csv'
+# 'keys.csv' should have 5 values: {DiscordApiKey},{ClashRoyaleApiKey},{RedditBotId},{RedditBotSecret},{RedditUsername}. 
+file = open('keys.csv','r')
+
+# Read only the first line of 'keys.csv' (just incase there are more than 1 line)
+all_keys = file.readlines()[0].split(',')
+
+# Get Clash Royale Api key from 'keys.csv'
+clashroyale_TOKEN = all_keys[1]
+# Get ai model
+clf_svm = generate_ai_model(clashroyale_TOKEN)

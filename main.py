@@ -27,6 +27,7 @@ Implemented features:
     - '!news' - get the latest news headlines from r/news
     - '!botcheck <playertag>' - check if a player is a supercell created bot - Note: We do not take responsibility for the accuracy of this tool
     - '!sing' - Get the bot to sing a song
+    - '!matchup <player1 tag> <player2 tag>' - Predict friendly battle between two players
     - Post a clashroyale deck link to be decoded by the bot
     
 Known Issues:
@@ -483,6 +484,50 @@ Current war participants in clan:
     elif message.content.startswith('!sing'):
         await message.channel.send('Never gonnaaaa give you up.\nNever gonna let u down.\nNever gonna run around and desert u.\nNever gonna make you cry.\nNever gonna say goodbye.\nNever gonna tell a lie and hurt u.', tts=True)
         
+    
+    elif message.content.startswith('!matchup'):
+        
+        # remove !matchup and trailing/leading spaces
+        temp_message = message.content[8:].strip()
+        
+        # Split message into two player tags
+        player_tags = temp_message.split()
+        
+        player1_tag = player_tags[0]
+        player2_tag = player_tags[1]
+        
+         # format special # in
+        if player1_tag[0] == '#':
+            # remove #
+            player1_tag = player1_tag[1:]
+        # add formatted # in
+        player1_tag = '%23' + player1_tag
+        
+        # format special # in
+        if player2_tag[0] == '#':
+            # remove #
+            player2_tag = player2_tag[1:]
+        # add formatted # in
+        player2_tag = '%23' + player2_tag
+        
+        try:
+            import matchup
+            # Get win rates 
+            player1_winrate, player2_winrate, player1_name, player2_name = matchup.predict_ai_result(player1_tag, player2_tag, clashroyale_TOKEN)
+            
+            winrate_info = f'''In a friendly battle between {player1_name} and {player2_name},
+I predict that there is a {round(player1_winrate*100,3)}% chance for {player1_name} to win and
+a {round(player2_winrate*100,3)}% chance for {player2_name} to win.
+'''
+            
+            await message.channel.send(winrate_info)
+            
+        except KeyError:
+            await message.channel.send("Warning, invalid player tag(s) detected!")
+            
+        
+        
+
     # check if message has clashroyale deck url in it 
     else:
         regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
