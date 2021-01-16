@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import json
 import requests
@@ -111,9 +110,12 @@ def generate_ai_model(clashroyale_TOKEN):
     y = df[['Results']] 
     
     # Our ai system to use
-    from sklearn.tree import DecisionTreeClassifier
+    from sklearn import svm
 
     # Train ai
-    clf_dt= DecisionTreeClassifier(random_state=0) # starts ai thing
-    clf_dt.fit(X, y)
+    clf_svm = svm.SVC(random_state=0, probability=True) # starts ai thing
+    clf_svm.fit(X, y)
     
+    return clf_svm
+
+
