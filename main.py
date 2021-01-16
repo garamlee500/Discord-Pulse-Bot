@@ -73,7 +73,7 @@ async def on_message(message):
             return
     
     # If the message starts with !hello or !Hello:
-    if message.content.startswith('!hello') or message.content.startswith('!Hello'):
+    elif message.content.startswith('!hello') or message.content.startswith('!Hello'):
         
         # Send this nice greeting back:
         await message.channel.send('Hello! It\'s nice to meet you! I ~~don\'t~~ like to help you with your various tasks. It\'s ~~tiring and boring to be among you mere mortals who always nag me for help~~ refreshing to help other people!')
@@ -81,11 +81,11 @@ async def on_message(message):
     # This is a quite complex function.
     # More info here:
     # https://www.youtube.com/watch?v=dQw4w9WgXcQ    
-    if message.content.startswith('!rickroll'):
+    elif message.content.startswith('!rickroll'):
         await message.channel.send('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
     
     # Get the image of the requested card
-    if message.content.startswith('!cardimage'):
+    elif message.content.startswith('!cardimage'):
         # [10:] removes !cardimage from string (it does this by removing the first 10 characters)
         # .strip() removes leading/trailing spaces
         # .title() capitalises each word
@@ -121,7 +121,7 @@ async def on_message(message):
             await message.channel.send(file=discord.File('temp.png'))
 
     # This function gives info about a Clash Royale player
-    if message.content.startswith('!playerinfo'):
+    elif message.content.startswith('!playerinfo'):
         # [11:] removes !playerinfo from string (it does this by removing the first 11 characters)
         # .strip() removes leading/trailing spaces
         # .title() capitalises each word
@@ -185,7 +185,7 @@ async def on_message(message):
         
 
     # Find a player's chest cycle
-    if message.content.startswith('!chest'):
+    elif message.content.startswith('!chest'):
         # [6:] removes !chest from string (it does this by removing the first 6 characters)
         # .strip() removes leading/trailing spaces
         # .title() capitalises each word
@@ -234,7 +234,7 @@ Next chest - {chest_list.pop(0)["name"]}
         # Catch missing information
         except KeyError:
             await message.channel.send("Warning. Player not found")
-    if message.content.startswith('!help'):
+    elif message.content.startswith('!help'):
         # Sends help_string which is defined earlier in file
         await message.channel.send(help_string)
 
@@ -243,7 +243,7 @@ Next chest - {chest_list.pop(0)["name"]}
     # Here's an example:
     # 'Dad, I'm hungry'
     # 'Hello hungry, I'm Dad'
-    if message.content.startswith('I\'m') or message.content.startswith('I’m') or message.content.startswith('Im') or message.content.startswith('im'):
+    elif message.content.startswith('I\'m') or message.content.startswith('I’m') or message.content.startswith('Im') or message.content.startswith('im'):
         # [3:] removes I'm from string (it does this by removing the first 3 characters)
         # .strip() removes leading/trailing spaces
         # .title() isn't used: this is to preserve the user's capitalisation in
@@ -256,7 +256,7 @@ Next chest - {chest_list.pop(0)["name"]}
         await message.channel.send('Hello, ' + temp_message + ', I\'m Pulse bot!')
 
     # Get basic clan info 
-    if message.content.startswith('!claninfo'):
+    elif message.content.startswith('!claninfo'):
         
         # [9:] removes !claninfo from string (it does this by removing the first 9 characters)
         # .strip() removes leading/trailing spaces
@@ -292,7 +292,7 @@ Open clan in Clash Royale: {'https://link.clashroyale.com/?clanInfo?id='+temp_me
 
        
 
-    if message.content.startswith('!clanmembers'):
+    elif message.content.startswith('!clanmembers'):
         temp_message = message.content[12:].strip()
         # format special # in
         if temp_message[0] == '#':
@@ -325,7 +325,7 @@ Open clan in Clash Royale: {'https://link.clashroyale.com/?clanInfo?id='+temp_me
         except KeyError:
             await message.channel.send("This clan doesn't exist")            
             
-    if message.content.startswith('!clanwar'):
+    elif message.content.startswith('!clanwar'):
         temp_message = message.content[8:].strip()
         # format special # in
         if temp_message[0] == '#':
@@ -378,7 +378,7 @@ Current war participants in clan:
         await message.channel.send(rock_paper_scissors.play(temp_message))
         
     # do !message <channel id> <message> to use
-    if message.content.startswith('!message'):
+    elif message.content.startswith('!message'):
         if message.author.id == 769880558322188298:
             temp_message = message.content[8:].split()
             channel_id = temp_message.pop(0)
@@ -388,7 +388,7 @@ Current war participants in clan:
         else:
             await message.channel.send('Congratulations on finding this secret command. You can\'t use it though')
      
-    if message.content.startswith('!meme'):
+    elif message.content.startswith('!meme'):
         try:
             # use my reddit client module to get meme
             reddit_meme = reddit_client.get_post('memes')
@@ -409,7 +409,7 @@ Current war participants in clan:
         except:
             await message.channel.send('Sorry, an unknown error has occured')
           
-    if message.content.startswith('!news'):
+    elif message.content.startswith('!news'):
         try:
             # use my reddit client module to get news
             reddit_meme = reddit_client.get_post('news')
@@ -430,7 +430,7 @@ Current war participants in clan:
         except:
             await message.channel.send('Sorry, an unknown error has occured')
             
-    if message.content.startswith('!crmeme'):
+    elif message.content.startswith('!crmeme'):
         try:
             # use my reddit client module to get meme
             reddit_meme = reddit_client.get_post_flair('clashroyale', 'Meme Monday')
@@ -452,7 +452,7 @@ Current war participants in clan:
             await message.channel.send('Sorry, an unknown error has occured')
             
             
-    if message.content.startswith('!botcheck'):
+    elif message.content.startswith('!botcheck'):
         # format message (see above somewhere)
         temp_message = message.content[9:].strip()
 
@@ -480,7 +480,7 @@ Current war participants in clan:
             await message.channel.send("Warning, Player tag not found!!!!!!!!")
             
     # Sing never gonna give you up using /tts
-    if message.content.startswith('!sing'):
+    elif message.content.startswith('!sing'):
         await message.channel.send('Never gonnaaaa give you up.\nNever gonna let u down.\nNever gonna run around and desert u.\nNever gonna make you cry.\nNever gonna say goodbye.\nNever gonna tell a lie and hurt u.', tts=True)
         
     # check if message has clashroyale deck url in it 
