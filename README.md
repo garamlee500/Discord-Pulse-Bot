@@ -1,7 +1,7 @@
 # Discord-Pulse-Bot
 A Clash Royale Discord bot
 ### Try it out on your server using: https://discord.com/api/oauth2/authorize?client_id=770293755285602354&permissions=392256&scope=bot
-Note: The bot added using the above link will be running the latest [release](https://github.com/garamlee500/Discord-Pulse-Bot/releases).
+Note: The bot added using the above link will be running the [latest release](https://github.com/garamlee500/Discord-Pulse-Bot/releases/latest).
 
 <img src="e.jpg" alt = "lord farquaad e meme" width = 20%>
 
