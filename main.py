@@ -58,10 +58,13 @@ client = discord.Client()
 
 
 #%%
+time_info = ''
 @client.event
 # When the bot is ready, print out that it is ready with datetime it was logged in on 
 async def on_ready():
-    print(f'We have logged in as {client.user} on {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}')
+    global time_info
+    time_info = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    print(f'We have logged in as {client.user} on {time_info}')
 
 @client.event
 async def on_message(message):
@@ -69,7 +72,12 @@ async def on_message(message):
     if message.author == client.user:
         # If message is a dad joke message, pin it
         if message.content.startswith('Hello,'):
-            await message.pin()
+                    # Pin message
+            try:
+                await message.pin()
+            
+            except:
+                await message.channel.send("Warning, max pins on channel.")
         else:
             return
     
@@ -244,14 +252,27 @@ Next chest - {chest_list.pop(0)["name"]}
     # Here's an example:
     # 'Dad, I'm hungry'
     # 'Hello hungry, I'm Dad'
-    elif message.content.startswith('I\'m') or message.content.startswith('I’m') or message.content.startswith('Im') or message.content.startswith('im'):
-        # [3:] removes I'm from string (it does this by removing the first 3 characters)
-        # .strip() removes leading/trailing spaces
-        # .title() isn't used: this is to preserve the user's capitalisation in
-        temp_message = message.content[3:].strip()
+    elif message.content.startswith('I\'m') or message.content.startswith('I’m') or message.content[:2].lower() == 'im' or message.content[:4].lower() == 'i am':
+       
+        # Remove first 4 characters if string starts with 'I am' or 'i am'
+        if message.content.lower()[:4] == 'i am':
+            temp_message = message.content[4:].strip()
+        
+        # Remove first 2 characters if string starts with 'Im' or 'im'
+        elif message.content.lower()[:2] == 'im':
+            temp_message = message.content[2:].strip()
+        else:
+            # [3:] removes I'm from string (it does this by removing the first 3 characters)
+            # .strip() removes leading/trailing spaces
+            # .title() isn't used: this is to preserve the user's capitalisation in
+            temp_message = message.content[3:].strip()
         
         # Pin message
-        await message.pin()
+        try:
+            await message.pin()
+            
+        except:
+            await message.channel.send("Warning, max pins on channel.")
         
         # Send message through to channel and then pin - this is catched later
         await message.channel.send('Hello, ' + temp_message + ', I\'m Pulse bot!')
@@ -527,7 +548,12 @@ a {round(player2_winrate*100,3)}% chance for {player2_name} to win.
             
         
         
-
+    elif message.content.startswith('!info'):
+        global time_info
+        await message.channel.send(f'''Current time: {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
+Time Current Bot logged on: {time_info}
+Bot Owner: <@!769880558322188298>
+Bot Source Code: https://github.com/garamlee500/Discord-Pulse-Bot''')
     # check if message has clashroyale deck url in it 
     else:
         regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"

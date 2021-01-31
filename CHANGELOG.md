@@ -16,6 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added !matchup, a new way to predict battles between two people (imagine actually just going to the stats)
 
+### Fixed
+
+- Fixed issue where message pins would fail when max pins had reached on a channel (50 pins). Am automatic warning is now sent when this error is received.
+- Improved dad joke parsing
+
 ## [1.0.4] - 2021-1-12
 
 ### Added
