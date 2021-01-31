@@ -11,10 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed 
 - Changed command checking to `elif` from `if` to increase performance
+- Changed '!help' to be more useful
 
 ### Added
 
 - Added !matchup, a new way to predict battles between two people (imagine actually just going to the stats)
+- Added !info - a basic info utility for bot
 
 ### Fixed
 
