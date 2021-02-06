@@ -20,8 +20,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fixed issue where message pins would fail when max pins had reached on a channel (50 pins). Am automatic warning is now sent when this error is received.
 - Improved dad joke parsing
+
+## [1.0.5] - 2021-2-06
+
+### Removed
+- Removed Automatic Dad joke pin due to complaints
 
 ## [1.0.4] - 2021-1-12
 
