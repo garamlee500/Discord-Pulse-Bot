@@ -66,11 +66,7 @@ async def on_ready():
 async def on_message(message):
     # if the message sender is the bot, just return
     if message.author == client.user:
-        # If message is a dad joke message, pin it
-        if message.content.startswith('Hello,'):
-            await message.pin()
-        else:
-            return
+        return
     
     # If the message starts with !hello or !Hello:
     if message.content.startswith('!hello') or message.content.startswith('!Hello'):
@@ -272,10 +268,7 @@ Next chest - {chest_list.pop(0)["name"]}
         # .title() isn't used: this is to preserve the user's capitalisation in
         temp_message = message.content[3:].strip()
         
-        # Pin message
-        await message.pin()
-        
-        # Send message through to channel and then pin - this is catched later
+        # Send message through to channel
         await message.channel.send('Hello, ' + temp_message + ', I\'m Pulse bot!')
 
     # Get basic clan info 
