@@ -8,4 +8,6 @@ rock_paper_scissors_full.py*
 discord_keys.txt*
 keys.csv*
 notes.txt*
-battlelogs.csv*
+ai_tester.py*
+image_dump/
+env/
